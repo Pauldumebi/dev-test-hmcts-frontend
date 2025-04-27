@@ -57,5 +57,3 @@ Delete tasks that are no longer needed.
 ```public```: Holds static assets such as images and index.html.
 
 ```webpack.config.js```: Configuration for bundling the application.
-
-Test
