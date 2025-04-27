@@ -3,6 +3,12 @@
 ### Getting Started
 To get the frontend up and running locally, follow these steps:
 
+### **Local Setup**
+
+* The frontend connects to the local backend API at http://127.0.0.1:8000/api.
+
+* Ensure the backend server is running before you start the frontend.
+
 ### 1. **Install Dependencies**
 Run the following command to install all the required dependencies:
 
@@ -24,6 +30,15 @@ To start the development server, run:
     yarn start:dev
 ```
 
+### 4. **Run Test**
+Use the following command to run tests:
+
+```json
+    yarn test
+```
+
+yarn test
+
 Alternatively, you can navigate to ```package.json``` and run the ```start:dev``` script manually.
 
 This will start the frontend application on your local machine.
@@ -44,11 +59,6 @@ You can update the status of a task. For example, mark a task as "completed."
 4. Delete Tasks
 Delete tasks that are no longer needed.
 
-### **Local Setup**
-
-* The frontend connects to the local backend API at http://127.0.0.1:8000/api.
-
-* Ensure the backend server is running before you start the frontend.
 
 ### **Project Structure**
 
