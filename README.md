@@ -1,11 +1,61 @@
 # HMCTS Dev Test Frontend
-This will be the frontend for the brand new HMCTS case management system. As a potential candidate we are leaving
-this in your hands. Please refer to the brief for the complete list of tasks! Complete as much as you can and be
-as creative as you want.
 
-To begin with, you should be able to run this by running:
-1) `yarn install`
-2) `yarn webpack`
-3) `yarn start:dev` or navigate to package.json and run the script manually
+### Getting Started
+To get the frontend up and running locally, follow these steps:
 
-You can change the structure however you like! 
+### 1. **Install Dependencies**
+Run the following command to install all the required dependencies:
+
+```json
+    yarn install
+```
+
+### 2. **Build the Project**
+Once dependencies are installed, build the project by running:
+
+```json
+    yarn webpack
+```
+
+### 3. **Start the Development Server**
+To start the development server, run:
+
+```json
+    yarn start:dev
+```
+
+Alternatively, you can navigate to ```package.json``` and run the ```start:dev``` script manually.
+
+This will start the frontend application on your local machine.
+
+### **Features**
+
+Once the frontend is up and running, you can:
+
+1. Create Tasks
+Add new tasks with a title, optional description, status, and due date.
+
+2. View Tasks
+View a list of all tasks. Click on any task to view its details.
+
+3. Update Tasks
+You can update the status of a task. For example, mark a task as "completed."
+
+4. Delete Tasks
+Delete tasks that are no longer needed.
+
+### **Local Setup**
+
+* The frontend connects to the local backend API at http://127.0.0.1:8000/api.
+
+* Ensure the backend server is running before you start the frontend.
+
+### **Project Structure**
+
+```src```: Contains all the frontend source code.
+
+```public```: Holds static assets such as images and index.html.
+
+```webpack.config.js```: Configuration for bundling the application.
+
+Test

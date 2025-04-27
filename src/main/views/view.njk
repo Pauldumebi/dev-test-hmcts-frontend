@@ -1,0 +1,37 @@
+{% extends "template.njk" %}
+
+
+{% block content %}
+
+  <div class="govuk-width-container">
+
+    <div role="region" aria-label="go-back"> 
+      <a href="/" class="govuk-back-link govuk-! display-none-print"> Back </a>
+    </div>
+
+    {% if task %}
+    <div class=" govuk-!-margin-top-5">
+      <h1 class="govuk-heading-xl">{{ task.title }}</h1>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-body-m">Status: </dt>
+        <dd class="govuk-summary-list__value govuk-body-m"> {{ task.status | capitalize }} </dd>
+      </div>
+      
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-body-m">Due date/time: </dt>
+        <dd class="govuk-summary-list__value govuk-body-m"> {{ task.due_date }} </dd>
+      </div>
+    </div>
+
+    <div class="govuk-!-margin-top-5">
+      <p class="govuk-body">{{ task.description }}</p>
+    </div>
+    {% else %}
+      <p class="govuk-body govuk-!-text-align-center govuk-!-margin-top-9">This task has either been deleted or does not exist.</p>
+    {% endif %}
+    
+  </div>
+
+
+{% endblock %}

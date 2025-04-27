@@ -1,0 +1,155 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% extends "template.njk" %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    <div role="region" aria-label="go-back">
+      <a href="/" class="govuk-back-link govuk-! display-none-print">Back</a>
+    </div>
+
+    <h1>{{ buttonText }}</h1>
+
+    <form method="post" id="taskForm">
+      <div class="govuk-!-margin-top-5">
+        {% call govukFieldset({
+          legend: null
+        }) %}
+          {{ govukInput({
+            label: { text: "Title" },
+            id: "title",
+            name: "title",
+            value: task.title,
+            autocomplete: "title",
+            required: true
+          }) }}
+
+          {{ govukInput({
+            label: { text: "Description" },
+            id: "description",
+            name: "description",
+            value: task.description,
+            rows: 5
+          }) }}
+
+          {{ govukInput({
+            label: { text: "Status" },
+            id: "status",
+            name: "status",
+            value: task.status,
+            required: true
+          }) }}
+
+          {{ govukDateInput({
+            fieldset: {
+              legend: { text: "Due date", classes: "govuk-fieldset__legend--m" }
+            },
+            id: "due-date",
+            namePrefix: "dueDate",
+            items: [
+              { name: "day", value: task.dueDateDay },
+              { name: "month", value: task.dueDateMonth },
+              { name: "year", value: task.dueDateYear }
+            ]
+          }) }}
+        {% endcall %}
+      </div>
+
+      {{ govukButton({
+        text: buttonText,
+        type: "submit"
+      }) }}
+
+      {{ govukButton({
+        text: "Cancel",
+        href: "/",
+        classes: "govuk-button--secondary"
+      }) }}
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('taskForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      let hasErrors = false;
+    
+      function setError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        let errorElement = document.getElementById(fieldId + '-error');
+    
+        if (!field.value.trim()) {
+          hasErrors = true;
+          field.classList.add('govuk-input--error');
+    
+          if (!errorElement) {
+            errorElement = document.createElement('span');
+            errorElement.id = fieldId + '-error';
+            errorElement.className = 'govuk-error-message';
+            field.parentNode.insertBefore(errorElement, field.nextSibling);
+          }
+          errorElement.textContent = message;
+          errorElement.style.display = 'block';
+        } else {
+          field.classList.remove('govuk-input--error');
+          if (errorElement) {
+            errorElement.style.display = 'none';
+          }
+        }
+      }
+    
+      setError('title', 'Title is required');
+      setError('status', 'Status is required');
+    
+      const day = parseInt(document.getElementById('due-date-day').value.trim(), 10);
+      const month = parseInt(document.getElementById('due-date-month').value.trim(), 10);
+      const year = parseInt(document.getElementById('due-date-year').value.trim(), 10);
+    
+      const dueDateFields = ['due-date-day', 'due-date-month', 'due-date-year'];
+    
+      if (!day || !month || !year || month < 1 || month > 12 || day < 1 || day > new Date(year, month, 0).getDate()) {
+        hasErrors = true;
+        dueDateFields.forEach(fieldId => {
+          const field = document.getElementById(fieldId);
+          field.classList.add('govuk-input--error');
+        });
+    
+        let errorElement = document.getElementById('dueDate-error');
+        if (!errorElement) {
+          errorElement = document.createElement('span');
+          errorElement.id = 'dueDate-error';
+          errorElement.className = 'govuk-error-message';
+          const dueDateGroup = document.getElementById('due-date');
+          dueDateGroup.parentNode.insertBefore(errorElement, dueDateGroup.nextSibling);
+        }
+        errorElement.textContent = 'Enter a valid due date';
+        errorElement.style.display = 'block';
+      } else {
+        dueDateFields.forEach(fieldId => {
+          const field = document.getElementById(fieldId);
+          field.classList.remove('govuk-input--error');
+        });
+        const errorElement = document.getElementById('dueDate-error');
+        if (errorElement) {
+          errorElement.style.display = 'none';
+        }
+      }
+    
+      if (!hasErrors) {
+        this.action = "/create";
+        const formattedDate = `${day}/${month}/${year}`;
+
+        // Create a hidden input to send formatted date
+        let hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'due_date';
+        hiddenInput.value = formattedDate;
+        this.appendChild(hiddenInput);
+        this.submit();
+      }
+    });
+    </script>
+    
+{% endblock %}

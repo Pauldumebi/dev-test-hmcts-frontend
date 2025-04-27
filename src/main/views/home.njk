@@ -2,119 +2,47 @@
 
 {% extends "template.njk" %}
 
-<!-- You may want to make further use of these components: https://design-system.service.gov.uk/components/
-but ultimately it is up to you -->
-
 {% block content %}
-  <h1 class="govuk-heading-xl">Welcome to your dev test!</h1>
+  <h1 class="govuk-heading-xl">
+    All Tasks
+    <a href="/create" class="govuk-button govuk-!-float-right" style="float: right">
+      Create Task
+    </a>
+  </h1>
 
-  <!-- The freedom is yours. You can design the solution however you like, however there is a starting point provided
-  to ensure you have both services running. You may want to make use of the Gov UK Components:
-  https://design-system.service.gov.uk/components/ to add tabs and so forth :) -->
 
-  {% if example.id %}
+  {% if tasks.length > 0 %}
 
+    {% for item in tasks %}
     {{ govukSummaryList({
       rows: [
         {
-          key: {
-            text: "ID"
-          },
-          value: {
-            text: example.id
-          },
+          key: { text: item.title },
+          value: { text: '' },
           actions: {
             items: [
               {
-                href: "#",
-                text: "Change",
-                visuallyHiddenText: "change case id ?!"
-              }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Case Number"
-          },
-          value: {
-            text: example.caseNumber
-          },
-          actions: {
-            items: [
+                href: "/view/" + item.id,
+                text: "View"
+              },
               {
-                href: "#",
-                text: "Change",
-                visuallyHiddenText: "change case number"
-              }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Title"
-          },
-          value: {
-            html: example.title
-          },
-          actions: {
-            items: [
+                href: "/edit/" + item.id,
+                text: "Edit"
+              },
               {
-                href: "#",
-                text: "Change",
-                visuallyHiddenText: "change case title"
+                href: "/delete/" + item.id,
+                text: "Delete"
               }
             ]
-          }
-        },
-        {
-          key: {
-            text: "Description"
-          },
-          value: {
-            html: example.description
-          },
-          actions: {
-            items: [
-               {
-                 href: "#",
-                 text: "Delete",
-                 visuallyHiddenText: "Delete description"
-               },
-               {
-                 href: "#",
-                 text: "Change",
-                 visuallyHiddenText: "Change description"
-               }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Status"
-          },
-          value: {
-            html: example.status
-          },
-          actions: {
-            items: [
-            ]
-          }
-        },
-        {
-          key: {
-           text: "Created Date"
-          },
-          value: {
-           html: example.createdDate
-          },
-          actions: {
-           items: [
-           ]
           }
         }
       ]
     }) }}
+{% endfor %}
+
+    {% else %}
+    
+      <p class="govuk-body govuk-!-text-align-center govuk-!-margin-top-9">You do not have any tasks. Please add some.</p>
 
   {% endif %}
 
