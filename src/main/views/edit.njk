@@ -1,5 +1,5 @@
-{% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
 {% extends "template.njk" %}
 
 
@@ -25,13 +25,15 @@
                 <dt class="govuk-summary-list__key govuk-body-m">Status: </dt>
                 <dd class="govuk-summary-list__value govuk-body-m"> 
 
-                    {{ govukInput({
-                        label: { text: "" },
-                        id: "status",
-                        name: "status",
-                        value: task.status.charAt(0).toUpperCase() + task.status.slice(1),
-                        required: true
-                    }) }}
+                  {{ govukSelect({
+                    label: {
+                      text: ""
+                    },
+                    id: "status",
+                    name: "status_id",
+                    value: task.status_id,
+                    items: statusOptions
+                  }) }}
                 </dd>
             </div>
         
@@ -48,16 +50,16 @@
         {% else %}
         <p class="govuk-body govuk-!-text-align-center govuk-!-margin-top-9">This task has either been deleted or does not exist.</p>
         {% endif %}
+        
+        {{ govukButton({
+            text: "Cancel",
+            href: "/",
+            classes: "govuk-button--secondary"
+          }) }}
 
         {{ govukButton({
             text: "Save",
             type: "submit"
-          }) }}
-    
-          {{ govukButton({
-            text: "Cancel",
-            href: "/",
-            classes: "govuk-button--secondary"
           }) }}
 
     </form>

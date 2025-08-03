@@ -2,10 +2,24 @@
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
 
 {% extends "template.njk" %}
 
 {% block content %}
+ {% if error %}
+  <div class="govuk-error-summary" role="alert" aria-labelledby="error-summary-title" tabindex="-1">
+    {% if error.message %}
+      <h2 class="govuk-error-summary__title" id="error-summary-title">{{ error.message }}</h2>
+    {% endif %}
+    <ul class="govuk-error-summary__list">
+      {% for field, messages in error.errors %}
+        <li>{{ messages }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
   <div class="govuk-width-container">
     <div role="region" aria-label="go-back">
       <a href="/" class="govuk-back-link govuk-! display-none-print">Back</a>
@@ -35,12 +49,14 @@
             rows: 5
           }) }}
 
-          {{ govukInput({
-            label: { text: "Status" },
+           {{ govukSelect({
+            label: {
+              text: "Status"
+            },
             id: "status",
-            name: "status",
-            value: task.status,
-            required: true
+            name: "status_id",
+            value: task.status_id,
+            items: statusOptions
           }) }}
 
           {{ govukDateInput({
@@ -59,14 +75,14 @@
       </div>
 
       {{ govukButton({
-        text: buttonText,
-        type: "submit"
-      }) }}
-
-      {{ govukButton({
         text: "Cancel",
         href: "/",
         classes: "govuk-button--secondary"
+      }) }}
+      
+      {{ govukButton({
+        text: buttonText,
+        type: "submit"
       }) }}
     </form>
   </div>

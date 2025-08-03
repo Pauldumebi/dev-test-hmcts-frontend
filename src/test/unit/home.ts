@@ -72,9 +72,20 @@ describe('Home Route Tests', () => {
 
   // 2. Edit a task by ID
   it('should render the edit page with task details', async () => {
-    const mockTask = { title: 'Test Task', status: 'completed', due_date: '31/12/2025' };
+    const mockTask = { title: 'Test Task', status_id: 2, due_date: '31/12/2025' };
+    const mockStatuses = [
+      { value: '1', text: 'Overdue' },
+      { value: '2', text: 'In Progress' },
+      { value: '3', text: 'Pending' },
+      { value: '4', text: 'Completed' },
+      { value: '5', text: 'Cancelled' }
+    ];
+    
     const taskId = '1';
-    (axios.get as jest.Mock).mockResolvedValueOnce({ data: mockTask });
+    (axios.get as jest.Mock)
+        .mockResolvedValueOnce({ data: mockStatuses })
+        .mockResolvedValueOnce({ data: mockTask });
+
 
     mockRequest.params = { id: taskId };
 
@@ -83,7 +94,7 @@ describe('Home Route Tests', () => {
       await editRouteHandler.route.stack[0].handle(mockRequest as Request, mockResponse as Response, () => {});
     }
 
-    expect(mockResponse.render).toHaveBeenCalledWith('edit', { task: mockTask });
+    expect(mockResponse.render).toHaveBeenCalledWith('edit', { task: mockTask, statusOptions: mockStatuses });
   });
 
   // 3. Delete a task (GET)
